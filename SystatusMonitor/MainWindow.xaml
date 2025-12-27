@@ -1,0 +1,136 @@
+﻿<Window x:Class="SystatusMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SystatusMonitor"
+        mc:Ignorable="d"
+        Title="SystatusMonitor" 
+        Height="300" Width="250"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+    <Border Background="#E6000000" 
+            CornerRadius="10" 
+            BorderThickness="1" 
+            BorderBrush="#40FFFFFF"
+            MouseDown="Border_MouseDown">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- 标题栏 -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <TextBlock Text="系统监控" 
+                          Foreground="White" 
+                          FontSize="14" 
+                          FontWeight="Bold"/>
+            </Grid>
+            
+            <!-- 监控数据区域 -->
+            <StackPanel Grid.Row="1">
+                <!-- CPU -->
+                <Grid Margin="0,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="CPU" Foreground="#CCFFFFFF" FontSize="11" Margin="0,0,0,4"/>
+                    <Grid Grid.Row="1">
+                        <ProgressBar Name="CpuProgressBar" 
+                                    Height="8" 
+                                    Minimum="0" 
+                                    Maximum="100" 
+                                    Value="{Binding CpuUsage}"/>
+                        <TextBlock Text="{Binding CpuUsageText}" 
+                                  Foreground="White" 
+                                  FontSize="10" 
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                
+                <!-- 内存 -->
+                <Grid Margin="0,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="内存" Foreground="#CCFFFFFF" FontSize="11" Margin="0,0,0,4"/>
+                    <Grid Grid.Row="1">
+                        <ProgressBar Name="MemoryProgressBar" 
+                                    Height="8" 
+                                    Minimum="0" 
+                                    Maximum="100" 
+                                    Value="{Binding MemoryUsage}"/>
+                        <TextBlock Text="{Binding MemoryUsageText}" 
+                                  Foreground="White" 
+                                  FontSize="10" 
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                
+                <!-- GPU -->
+                <Grid Margin="0,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="GPU" Foreground="#CCFFFFFF" FontSize="11" Margin="0,0,0,4"/>
+                    <Grid Grid.Row="1">
+                        <ProgressBar Name="GpuProgressBar" 
+                                    Height="8" 
+                                    Minimum="0" 
+                                    Maximum="100" 
+                                    Value="{Binding GpuUsage}"/>
+                        <TextBlock Text="{Binding GpuUsageText}" 
+                                  Foreground="White" 
+                                  FontSize="10" 
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                
+                <!-- 硬盘 -->
+                <Grid Margin="0,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="硬盘" Foreground="#CCFFFFFF" FontSize="11" Margin="0,0,0,4"/>
+                    <Grid Grid.Row="1">
+                        <ProgressBar Name="DiskProgressBar" 
+                                    Height="8" 
+                                    Minimum="0" 
+                                    Maximum="100" 
+                                    Value="{Binding DiskUsage}"/>
+                        <TextBlock Text="{Binding DiskUsageText}" 
+                                  Foreground="White" 
+                                  FontSize="10" 
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                
+                <!-- 网速 -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="网速" Foreground="#CCFFFFFF" FontSize="11" Margin="0,0,0,4"/>
+                    <TextBlock Grid.Row="1" 
+                              Text="{Binding NetworkSpeedText}" 
+                              Foreground="White" 
+                              FontSize="10"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
