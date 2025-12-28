@@ -2,16 +2,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (WPF)",
+            "name": ".NET Core Launch (dotnet run)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceFolder}/SystatusMonitor/SystatusMonitor.csproj",
+                "--no-build"
+            ],
+            "cwd": "${workspaceFolder}/SystatusMonitor",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": ".NET Core Launch (SystatusMonitor)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/SystatusMonitor/bin/Debug/net8.0-windows/SystatusMonitor.exe",
             "args": [],
-            "cwd": "${workspaceFolder}/SystatusMonitor",
+            "cwd": "${workspaceFolder}/SystatusMonitor/bin/Debug/net8.0-windows",
             "stopAtEntry": false,
-            "console": "internalConsole",
-            "internalConsoleOptions": "neverOpen"
+            "console": "internalConsole"
         },
         {
             "name": ".NET Core Attach",
@@ -20,4 +35,3 @@
         }
     ]
 }
-

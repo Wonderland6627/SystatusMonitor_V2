@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Management;
 
 namespace SystatusMonitor.Services;
 
@@ -7,19 +8,11 @@ namespace SystatusMonitor.Services;
 /// </summary>
 public class MemoryMonitor : IDisposable
 {
-    private PerformanceCounter? _memoryCounter;
     private bool _disposed = false;
 
     public MemoryMonitor()
     {
-        try
-        {
-            _memoryCounter = new PerformanceCounter("Memory", "Available MBytes");
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Failed to initialize Memory counter: {ex.Message}");
-        }
+        // 使用WMI查询内存信息，更可靠
     }
 
     /// <summary>
@@ -29,14 +22,20 @@ public class MemoryMonitor : IDisposable
     {
         try
         {
-            if (_memoryCounter != null)
+            // 使用WMI查询操作系统内存信息
+            using var searcher = new ManagementObjectSearcher(
+                "SELECT TotalVisibleMemorySize, FreePhysicalMemory FROM Win32_OperatingSystem");
+            
+            foreach (ManagementObject obj in searcher.Get())
             {
-                var availableMB = _memoryCounter.NextValue();
-                var totalMemory = GetTotalMemoryMB();
-                if (totalMemory > 0)
+                var totalMemoryKB = Convert.ToUInt64(obj["TotalVisibleMemorySize"]);
+                var freeMemoryKB = Convert.ToUInt64(obj["FreePhysicalMemory"]);
+                
+                if (totalMemoryKB > 0)
                 {
-                    var usedMemory = totalMemory - availableMB;
-                    return (float)(usedMemory / totalMemory * 100.0);
+                    var usedMemoryKB = totalMemoryKB - freeMemoryKB;
+                    var usage = (float)(usedMemoryKB / (double)totalMemoryKB * 100.0);
+                    return usage;
                 }
             }
         }
@@ -47,29 +46,10 @@ public class MemoryMonitor : IDisposable
         return 0;
     }
 
-    /// <summary>
-    /// 获取总内存 (MB)
-    /// </summary>
-    private static float GetTotalMemoryMB()
-    {
-        try
-        {
-            var pc = new PerformanceCounter("Memory", "Total MBytes");
-            var total = pc.NextValue();
-            pc.Dispose();
-            return total;
-        }
-        catch
-        {
-            return 0;
-        }
-    }
-
     public void Dispose()
     {
         if (!_disposed)
         {
-            _memoryCounter?.Dispose();
             _disposed = true;
         }
     }

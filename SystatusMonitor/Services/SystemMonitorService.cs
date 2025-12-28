@@ -54,6 +54,7 @@ public class SystemMonitorService : IDisposable
         if (_isRunning) return;
 
         _isRunning = true;
+        
         // 每1秒更新一次数据
         _updateTimer = new System.Threading.Timer(UpdateData, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
     }
